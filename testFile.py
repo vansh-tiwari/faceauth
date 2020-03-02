@@ -3,12 +3,32 @@ import cv2 as cv
 import numpy as np
 import recognition as rc
 
-img_test = cv.imread('testImages/test1.png')
-faces, gray_image = rc.Detect(img_test)
-print("==> Detected Faces: ", faces)
+img_test = cv.imread('testImages/test.png')
+facesDetected, gray_image = rc.Detect(img_test)
+print("==> Detected Faces: ", facesDetected)
 
-for (x,y,w,h) in faces:
-    cv.rectangle(img_test,(x,y),(x+w+5,y+h+5),(120,125,255),thickness=2)
+# for (x,y,w,h) in facesDetected:
+#     cv.rectangle(img_test,(x,y),(x+w+5,y+h+5),(120,125,255),thickness=2)
+
+# resized = cv.resize(img_test,(1000,700))
+# cv.imshow("Detected Face", resized)
+# cv.waitKey(0)
+# cv.destroyAllWindows
+
+faces, faceID = rc.labelsTrainData('trainImages')
+faceRecognizer = rc.trainClassifier(faces, faceID)
+faceRecognizer.save('trainingData.yml')
+
+nameDict = {0: 'Veena', 1: 'Vansh'}
+
+for face in facesDetected:
+    (x,y,w,h) = face
+    roiGray = gray_image[y:y+h, x:x+h]
+    label, confidence = faceRecognizer.predict(roiGray)
+    print("Confidence: {}, Label: {}".format(confidence,label))
+    rc.drawRect(img_test, face)
+    predictedName = nameDict[label]
+    rc.keepText(img_test, predictedName, x, y)
 
 resized = cv.resize(img_test,(1000,700))
 cv.imshow("Detected Face", resized)
