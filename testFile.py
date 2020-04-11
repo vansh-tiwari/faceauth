@@ -3,7 +3,7 @@ import cv2 as cv
 import numpy as np
 import recognition as rc
 
-img_test = cv.imread('testImages/i.jpg')
+img_test = cv.imread('testImages/smoak1.jpg')
 facesDetected, gray_image = rc.Detect(img_test)
 print("==> Detected Faces: ", facesDetected)
 
