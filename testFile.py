@@ -3,7 +3,7 @@ import cv2 as cv
 import numpy as np
 import recognition as rc
 
-img_test = cv.imread('testImages/smoak1.jpg')
+img_test = cv.imread('testImages/i.jpg')
 facesDetected, gray_image = rc.Detect(img_test)
 print("==> Detected Faces: ", facesDetected)
 
@@ -19,7 +19,7 @@ faces, faceID = rc.labelsTrainData('trainImages')
 faceRecognizer = rc.trainClassifier(faces, faceID)
 # faceRecognizer.save('trainingData.yml')
 
-nameDict = {4:'Narendra', 1: 'Vansh', 2: 'Felicity', 3: 'Arrow'}
+nameDict = {1: 'Vansh', 2: 'Felicity', 3: 'Arrow', 4:'Alex'}
 
 for face in facesDetected:
     (x,y,w,h) = face
